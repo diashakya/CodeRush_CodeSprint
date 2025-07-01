@@ -9,8 +9,26 @@ Future<void> exportSalesToCsv(BuildContext context, List<SaleRecord> sales) asyn
   final buffer = StringBuffer();
   buffer.writeln('Product,DateTime,Quantity,Amount,Type');
   for (var sale in sales) {
+    // Use product name if available, else fallback to productId
+    final productName = (sale is dynamic && sale.productName != null)
+        ? sale.productName
+        : (sale is dynamic && sale.productId != null)
+            ? sale.productId
+            : '';
+    final dateTime = (sale is dynamic && sale.time != null)
+        ? sale.time.toIso8601String()
+        : (sale is dynamic && sale.transactionTime != null)
+            ? sale.transactionTime.toIso8601String()
+            : '';
+    final quantity = (sale is dynamic && sale.quantity != null) ? sale.quantity : '';
+    final amount = (sale is dynamic && sale.totalAmount != null) ? sale.totalAmount : '';
+    final type = (sale is dynamic && sale.type != null)
+        ? sale.type
+        : (sale is dynamic && sale.transactionType != null)
+            ? sale.transactionType
+            : '';
     buffer.writeln(
-      '${sale.productName},${sale.time.toIso8601String()},${sale.quantity},${sale.totalAmount},${sale.type}'
+      '$productName,$dateTime,$quantity,$amount,$type'
     );
   }
   final csv = buffer.toString();
@@ -32,6 +50,7 @@ Future<void> exportSalesToCsv(BuildContext context, List<SaleRecord> sales) asyn
   }
 }
 
+// ...rest of your DashboardPage code remains unchanged...
 class DashboardPage extends StatelessWidget {
   final List<Product> products;
   final List<SaleRecord> sales;
