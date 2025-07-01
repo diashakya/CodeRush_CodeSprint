@@ -1,0 +1,32 @@
+name: pasale
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  speech_to_text: ^7.0.0
+  path_provider: ^2.1.3
+  share_plus: ^7.2.1
+  
+  
+  editable: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  # Removed the fonts section because the font file is missing.
+  # If you add the font file at assets/fonts/NotoSansDevanagari-Regular.ttf, you can restore this section.
