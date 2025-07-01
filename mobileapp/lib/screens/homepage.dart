@@ -1,4 +1,7 @@
+<<<<<<< HEAD:mobileapp/lib/screens/homepage.dart
 
+=======
+>>>>>>> dd53dafc3006b2740e18cb55abe14b2d9710381a:lib/screens/homepage.dart
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
