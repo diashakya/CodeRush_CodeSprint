@@ -2,50 +2,61 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:html' as html; // Only for web
+import 'dart:convert';
 import '../shop.dart';
 
 // CSV EXPORT FUNCTION
-Future<void> exportSalesToCsv(BuildContext context, List<SaleRecord> sales) async {
+Future<void> exportSalesToCsv(
+  BuildContext context,
+  List<SaleRecord> sales,
+) async {
   final buffer = StringBuffer();
-  buffer.writeln('Product,DateTime,Quantity,Amount,Type');
+  buffer.writeln(
+    'shop_id,product_id,transaction_type,quantity,unit_price,total_amount,transaction_time,payment_method',
+  );
   for (var sale in sales) {
-    // Use product name if available, else fallback to productId
-    final productName = (sale is dynamic && sale.productName != null)
-        ? sale.productName
-        : (sale is dynamic && sale.productId != null)
-            ? sale.productId
-            : '';
-    final dateTime = (sale is dynamic && sale.time != null)
-        ? sale.time.toIso8601String()
-        : (sale is dynamic && sale.transactionTime != null)
-            ? sale.transactionTime.toIso8601String()
-            : '';
-    final quantity = (sale is dynamic && sale.quantity != null) ? sale.quantity : '';
-    final amount = (sale is dynamic && sale.totalAmount != null) ? sale.totalAmount : '';
-    final type = (sale is dynamic && sale.type != null)
-        ? sale.type
-        : (sale is dynamic && sale.transactionType != null)
-            ? sale.transactionType
-            : '';
     buffer.writeln(
-      '$productName,$dateTime,$quantity,$amount,$type'
+      '${sale.shopId},${sale.productId},${sale.transactionType},${sale.quantity},${sale.unitPrice},${sale.totalAmount},${sale.transactionTime.toIso8601String()},${sale.paymentMethod}',
     );
   }
   final csv = buffer.toString();
 
   try {
-    final directory = await getTemporaryDirectory();
-    final path = '${directory.path}/sales_log.csv';
-    final file = File(path);
-    await file.writeAsString(csv);
+    if (kIsWeb) {
+      // For web: trigger download
+      final bytes = utf8.encode(csv);
+      final blob = html.Blob([bytes], 'text/csv');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute('download', 'sales_log.csv')
+        ..click(); // Used for side effect
+      html.Url.revokeObjectUrl(url);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('CSV downloaded!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      // For mobile/desktop: share as before
+      final directory = await getTemporaryDirectory();
+      final path = '${directory.path}/sales_log.csv';
+      final file = File(path);
+      await file.writeAsString(csv);
 
-    await Share.shareFiles([file.path], text: 'Sales Log CSV');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('CSV exported!'), backgroundColor: Colors.green),
-    );
+      await Share.shareFiles([file.path], text: 'Sales Log CSV');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('CSV exported!'), backgroundColor: Colors.green),
+      );
+    }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to export CSV: $e'), backgroundColor: Colors.red),
+      SnackBar(
+        content: Text('Failed to export CSV: $e'),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 }
@@ -61,41 +72,58 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int totalProducts = products.length;
     int totalStock = products.fold(0, (sum, p) => sum + p.quantity);
-    double totalValue = products.fold(0.0, (sum, p) => sum + p.quantity * p.price);
+    double totalValue = products.fold(
+      0.0,
+      (sum, p) => sum + p.quantity * p.price,
+    );
 
-    int salesTodayCount = sales.where((s) =>
-      s.time.year == DateTime.now().year &&
-      s.time.month == DateTime.now().month &&
-      s.time.day == DateTime.now().day
-    ).fold(0, (sum, s) => sum + s.quantity);
+    int salesTodayCount = sales
+        .where(
+          (s) =>
+              s.time.year == DateTime.now().year &&
+              s.time.month == DateTime.now().month &&
+              s.time.day == DateTime.now().day,
+        )
+        .fold(0, (sum, s) => sum + s.quantity);
 
-    double salesTodayAmount = sales.where((s) =>
-      s.time.year == DateTime.now().year &&
-      s.time.month == DateTime.now().month &&
-      s.time.day == DateTime.now().day
-    ).fold(0.0, (sum, s) => sum + s.totalAmount);
+    double salesTodayAmount = sales
+        .where(
+          (s) =>
+              s.time.year == DateTime.now().year &&
+              s.time.month == DateTime.now().month &&
+              s.time.day == DateTime.now().day,
+        )
+        .fold(0.0, (sum, s) => sum + s.totalAmount);
 
     int totalSalesCount = sales.fold(0, (sum, s) => sum + s.quantity);
     double totalSalesAmount = sales.fold(0.0, (sum, s) => sum + s.totalAmount);
 
     Map<String, int> salesPerProduct = {
       for (var p in products)
-        p.name: sales.where((s) => s.productName == p.name).fold(0, (sum, s) => sum + s.quantity)
+        p.name: sales
+            .where((s) => s.productName == p.name)
+            .fold(0, (sum, s) => sum + s.quantity),
     };
 
     Map<String, int> salesTodayPerProduct = {
       for (var p in products)
-        p.name: sales.where((s) =>
-          s.productName == p.name &&
-          s.time.year == DateTime.now().year &&
-          s.time.month == DateTime.now().month &&
-          s.time.day == DateTime.now().day
-        ).fold(0, (sum, s) => sum + s.quantity)
+        p.name: sales
+            .where(
+              (s) =>
+                  s.productName == p.name &&
+                  s.time.year == DateTime.now().year &&
+                  s.time.month == DateTime.now().month &&
+                  s.time.day == DateTime.now().day,
+            )
+            .fold(0, (sum, s) => sum + s.quantity),
     };
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Dashboard', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          'User Dashboard',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         backgroundColor: Color(0xFF1E88E5),
         elevation: 8,
         actions: [
@@ -119,31 +147,84 @@ class DashboardPage extends StatelessWidget {
           SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _dashboardCard(icon: Icons.inventory_2, label: 'Total Products', value: totalProducts.toString(), color: Colors.blueAccent)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.inventory_2,
+                  label: 'Total Products',
+                  value: totalProducts.toString(),
+                  color: Colors.blueAccent,
+                ),
+              ),
               SizedBox(width: 8),
-              Expanded(child: _dashboardCard(icon: Icons.storage, label: 'Total Stock', value: totalStock.toString(), color: Colors.green)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.storage,
+                  label: 'Total Stock',
+                  value: totalStock.toString(),
+                  color: Colors.green,
+                ),
+              ),
               SizedBox(width: 8),
-              Expanded(child: _dashboardCard(icon: Icons.attach_money, label: 'Stock Value', value: 'रू ${totalValue.toStringAsFixed(0)}', color: Colors.amber[800]!)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.attach_money,
+                  label: 'Stock Value',
+                  value: 'रू ${totalValue.toStringAsFixed(0)}',
+                  color: Colors.amber[800]!,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _dashboardCard(icon: Icons.sell, label: 'Sales Today', value: salesTodayCount.toString(), color: Colors.teal)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.sell,
+                  label: 'Sales Today',
+                  value: salesTodayCount.toString(),
+                  color: Colors.teal,
+                ),
+              ),
               SizedBox(width: 8),
-              Expanded(child: _dashboardCard(icon: Icons.currency_rupee, label: 'Revenue Today', value: 'रू ${salesTodayAmount.toStringAsFixed(0)}', color: Colors.deepOrange)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.currency_rupee,
+                  label: 'Revenue Today',
+                  value: 'रू ${salesTodayAmount.toStringAsFixed(0)}',
+                  color: Colors.deepOrange,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _dashboardCard(icon: Icons.leaderboard, label: 'Total Sales', value: totalSalesCount.toString(), color: Colors.purple)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.leaderboard,
+                  label: 'Total Sales',
+                  value: totalSalesCount.toString(),
+                  color: Colors.purple,
+                ),
+              ),
               SizedBox(width: 8),
-              Expanded(child: _dashboardCard(icon: Icons.account_balance_wallet, label: 'Total Revenue', value: 'रू ${totalSalesAmount.toStringAsFixed(0)}', color: Colors.indigo)),
+              Expanded(
+                child: _dashboardCard(
+                  icon: Icons.account_balance_wallet,
+                  label: 'Total Revenue',
+                  value: 'रू ${totalSalesAmount.toStringAsFixed(0)}',
+                  color: Colors.indigo,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 24),
-          _buildProductSalesTable(products, salesPerProduct, salesTodayPerProduct),
+          _buildProductSalesTable(
+            products,
+            salesPerProduct,
+            salesTodayPerProduct,
+          ),
           SizedBox(height: 24),
           _buildSalesLog(sales),
         ],
@@ -163,14 +244,25 @@ class DashboardPage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
-          BoxShadow(color: color.withOpacity(.07), blurRadius: 10, offset: Offset(0, 4)),
+          BoxShadow(
+            color: color.withOpacity(.07),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
         children: [
           Icon(icon, color: color, size: 32),
           SizedBox(height: 10),
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: color)),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: color,
+            ),
+          ),
           SizedBox(height: 4),
           Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[700])),
         ],
@@ -178,7 +270,11 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildProductSalesTable(List<Product> products, Map<String, int> perProduct, Map<String, int> todayPerProduct) {
+  Widget _buildProductSalesTable(
+    List<Product> products,
+    Map<String, int> perProduct,
+    Map<String, int> todayPerProduct,
+  ) {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -187,22 +283,34 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('🛒 Product Sales (All Time / Today)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(
+              '🛒 Product Sales (All Time / Today)',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             SizedBox(height: 8),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columns: [
-                  DataColumn(label: Text('Product', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                    label: Text(
+                      'Product',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   DataColumn(label: Text('Total Sold')),
                   DataColumn(label: Text('Sold Today')),
                 ],
                 rows: products.map((p) {
-                  return DataRow(cells: [
-                    DataCell(Text(p.name)),
-                    DataCell(Text(perProduct[p.name]?.toString() ?? '0')),
-                    DataCell(Text(todayPerProduct[p.name]?.toString() ?? '0')),
-                  ]);
+                  return DataRow(
+                    cells: [
+                      DataCell(Text(p.name)),
+                      DataCell(Text(perProduct[p.name]?.toString() ?? '0')),
+                      DataCell(
+                        Text(todayPerProduct[p.name]?.toString() ?? '0'),
+                      ),
+                    ],
+                  );
                 }).toList(),
               ),
             ),
@@ -222,7 +330,10 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('📋 Sales Log', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(
+              '📋 Sales Log',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             SizedBox(height: 8),
             sortedSales.isNotEmpty
                 ? Column(
@@ -230,14 +341,23 @@ class DashboardPage extends StatelessWidget {
                       return ListTile(
                         dense: true,
                         leading: Icon(
-                          sale.type == 'sell' ? Icons.sell : Icons.add_shopping_cart,
-                          color: sale.type == 'sell' ? Colors.orangeAccent : Colors.green,
+                          sale.type == 'sell'
+                              ? Icons.sell
+                              : Icons.add_shopping_cart,
+                          color: sale.type == 'sell'
+                              ? Colors.orangeAccent
+                              : Colors.green,
                         ),
                         title: Text('${sale.productName}'),
                         subtitle: Text(
-                          '${sale.type == 'sell' ? "Sold" : "Bought"}: ${sale.quantity} | ${sale.time.hour.toString().padLeft(2,'0')}:${sale.time.minute.toString().padLeft(2,'0')} on ${sale.time.year}-${sale.time.month.toString().padLeft(2,'0')}-${sale.time.day.toString().padLeft(2,'0')}'
+                          '${sale.type == 'sell' ? "Sold" : "Bought"}: ${sale.quantity} | '
+                          '${sale.time.hour.toString().padLeft(2, '0')}:${sale.time.minute.toString().padLeft(2, '0')} on '
+                          '${sale.time.year}-${sale.time.month.toString().padLeft(2, '0')}-${sale.time.day.toString().padLeft(2, '0')}',
                         ),
-                        trailing: Text('रू ${sale.totalAmount.toStringAsFixed(0)}', style: TextStyle(fontWeight: FontWeight.bold)),
+                        trailing: Text(
+                          'रू ${sale.totalAmount.toStringAsFixed(0)}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       );
                     }).toList(),
                   )

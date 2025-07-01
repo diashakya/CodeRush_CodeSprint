@@ -22,13 +22,16 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        title: Text(title, style: TextStyle(color: success ? Colors.green : Colors.red)),
+        title: Text(
+          title,
+          style: TextStyle(color: success ? Colors.green : Colors.red),
+        ),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text("OK"),
-          )
+          ),
         ],
       ),
     );
@@ -48,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => NepalShopApp()),
+          MaterialPageRoute(builder: (_) => ShopHomePage()),
         );
       }
     }
@@ -66,7 +69,11 @@ class _LoginPageState extends State<LoginPage> {
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) Navigator.of(context).pop();
       if (mounted) {
-        _showDialog("Sign Up Successful", "Welcome, ${_nameController.text}!", success: true);
+        _showDialog(
+          "Sign Up Successful",
+          "Welcome, ${_nameController.text}!",
+          success: true,
+        );
         // Optionally, clear fields
         _userController.clear();
         _passController.clear();
@@ -115,66 +122,75 @@ class _LoginPageState extends State<LoginPage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ShaderMask(
-                        shaderCallback: (Rect bounds) {
-                          return const LinearGradient(
-                          colors: [Color(0xFFFFD700), Color(0xFF57C4DE)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          ).createShader(bounds);
-                        },
-                        child: const Text(
-                          "नमस्ते!",
-                          style: TextStyle(
-                          fontSize: 38,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2C3E50), // Slightly dark blue-gray
-                          letterSpacing: 1.5,
-                          shadows: [
-                            Shadow(
-                            blurRadius: 8,
-                            color: Colors.black12, // Lighter shadow
-                            offset: Offset(2, 2),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShaderMask(
+                            shaderCallback: (Rect bounds) {
+                              return const LinearGradient(
+                                colors: [Color(0xFFFFD700), Color(0xFF57C4DE)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ).createShader(bounds);
+                            },
+                            child: const Text(
+                              "नमस्ते!",
+                              style: TextStyle(
+                                fontSize: 38,
+                                fontWeight: FontWeight.bold,
+                                color: Color(
+                                  0xFF2C3E50,
+                                ), // Slightly dark blue-gray
+                                letterSpacing: 1.5,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 8,
+                                    color: Colors.black12, // Lighter shadow
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
                           ),
-                        ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                        children: const [
-                          Icon(Icons.storefront, color: Colors.white, size: 32),
-                          SizedBox(width: 8),
-                          Text(
-                          "पसलेमा स्वागत छ",
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            shadows: [
-                            Shadow(
-                              blurRadius: 6,
-                              color: Colors.black26,
-                              offset: Offset(1, 2),
-                            ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.storefront,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "पसलेमा स्वागत छ",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 6,
+                                      color: Colors.black26,
+                                      offset: Offset(1, 2),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          ),
                         ],
-                        ),
-                      ],
                       ),
                     ),
-                    ),
-                  
+                  ),
+
                   const SizedBox(height: 52),
                   // White card with tabs and form
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 22),
-                    padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 18),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 36,
+                      horizontal: 18,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(36),
@@ -201,15 +217,21 @@ class _LoginPageState extends State<LoginPage> {
                                   onTap: () => setState(() => isLogin = true),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: isLogin ? const Color(0xFF57C4DE) : Colors.transparent,
+                                      color: isLogin
+                                          ? const Color(0xFF57C4DE)
+                                          : Colors.transparent,
                                       borderRadius: BorderRadius.circular(30),
                                     ),
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
                                     child: Center(
                                       child: Text(
                                         "Log In",
                                         style: TextStyle(
-                                          color: isLogin ? Colors.white : const Color(0xFF57C4DE),
+                                          color: isLogin
+                                              ? Colors.white
+                                              : const Color(0xFF57C4DE),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17,
                                         ),
@@ -223,15 +245,21 @@ class _LoginPageState extends State<LoginPage> {
                                   onTap: () => setState(() => isLogin = false),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: !isLogin ? const Color(0xFF57C4DE) : Colors.transparent,
+                                      color: !isLogin
+                                          ? const Color(0xFF57C4DE)
+                                          : Colors.transparent,
                                       borderRadius: BorderRadius.circular(30),
                                     ),
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
                                     child: Center(
                                       child: Text(
                                         "Sign In",
                                         style: TextStyle(
-                                          color: !isLogin ? Colors.white : const Color(0xFF57C4DE),
+                                          color: !isLogin
+                                              ? Colors.white
+                                              : const Color(0xFF57C4DE),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17,
                                         ),
@@ -255,7 +283,10 @@ class _LoginPageState extends State<LoginPage> {
                                   controller: _nameController,
                                   decoration: InputDecoration(
                                     hintText: "Full Name",
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 22),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 18,
+                                      horizontal: 22,
+                                    ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(28),
                                       borderSide: BorderSide.none,
@@ -264,7 +295,8 @@ class _LoginPageState extends State<LoginPage> {
                                     fillColor: const Color(0xFFF5FBFC),
                                   ),
                                   validator: (v) {
-                                    if (!isLogin && (v == null || v.trim().length < 2)) {
+                                    if (!isLogin &&
+                                        (v == null || v.trim().length < 2)) {
                                       return "Enter your name";
                                     }
                                     return null;
@@ -277,7 +309,10 @@ class _LoginPageState extends State<LoginPage> {
                                 controller: _userController,
                                 decoration: InputDecoration(
                                   hintText: "Username or Email",
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 22),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 18,
+                                    horizontal: 22,
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(28),
                                     borderSide: BorderSide.none,
@@ -285,7 +320,8 @@ class _LoginPageState extends State<LoginPage> {
                                   filled: true,
                                   fillColor: const Color(0xFFF5FBFC),
                                 ),
-                                validator: (v) => v == null || v.isEmpty ? "Required" : null,
+                                validator: (v) =>
+                                    v == null || v.isEmpty ? "Required" : null,
                               ),
                               const SizedBox(height: 16),
                               // Password
@@ -294,7 +330,10 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: _obscure,
                                 decoration: InputDecoration(
                                   hintText: "Password",
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 22),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 18,
+                                    horizontal: 22,
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(28),
                                     borderSide: BorderSide.none,
@@ -302,8 +341,14 @@ class _LoginPageState extends State<LoginPage> {
                                   filled: true,
                                   fillColor: const Color(0xFFF5FBFC),
                                   suffixIcon: IconButton(
-                                    icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off, color: const Color(0xFF57C4DE)),
-                                    onPressed: () => setState(() => _obscure = !_obscure),
+                                    icon: Icon(
+                                      _obscure
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: const Color(0xFF57C4DE),
+                                    ),
+                                    onPressed: () =>
+                                        setState(() => _obscure = !_obscure),
                                   ),
                                 ),
                                 validator: (v) {
@@ -320,7 +365,10 @@ class _LoginPageState extends State<LoginPage> {
                                   obscureText: _obscureConfirm,
                                   decoration: InputDecoration(
                                     hintText: "Confirm Password",
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 22),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 18,
+                                      horizontal: 22,
+                                    ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(28),
                                       borderSide: BorderSide.none,
@@ -328,8 +376,16 @@ class _LoginPageState extends State<LoginPage> {
                                     filled: true,
                                     fillColor: const Color(0xFFF5FBFC),
                                     suffixIcon: IconButton(
-                                      icon: Icon(_obscureConfirm ? Icons.visibility : Icons.visibility_off, color: const Color(0xFF57C4DE)),
-                                      onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                                      icon: Icon(
+                                        _obscureConfirm
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: const Color(0xFF57C4DE),
+                                      ),
+                                      onPressed: () => setState(
+                                        () =>
+                                            _obscureConfirm = !_obscureConfirm,
+                                      ),
                                     ),
                                   ),
                                   validator: (v) {
@@ -348,11 +404,16 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: isLogin ? _onLogin : _onSignIn,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF57C4DE),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
                                   ),
                                   child: Text(
                                     isLogin ? "Log In" : "Sign In",
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -363,12 +424,26 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(height: 1, width: 32, color: Colors.grey[300]),
+                            Container(
+                              height: 1,
+                              width: 32,
+                              color: Colors.grey[300],
+                            ),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text("or", style: TextStyle(fontSize: 14, color: Colors.black54)),
+                              child: Text(
+                                "or",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black54,
+                                ),
+                              ),
                             ),
-                            Container(height: 1, width: 32, color: Colors.grey[300]),
+                            Container(
+                              height: 1,
+                              width: 32,
+                              color: Colors.grey[300],
+                            ),
                           ],
                         ),
                         const SizedBox(height: 10),
@@ -377,17 +452,29 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.facebook, color: Colors.blue, size: 32),
+                              icon: const Icon(
+                                Icons.facebook,
+                                color: Colors.blue,
+                                size: 32,
+                              ),
                               onPressed: () => _onSocial("Facebook"),
                             ),
                             const SizedBox(width: 8),
                             IconButton(
-                              icon: const Icon(Icons.alternate_email, color: Colors.lightBlue, size: 30),
+                              icon: const Icon(
+                                Icons.alternate_email,
+                                color: Colors.lightBlue,
+                                size: 30,
+                              ),
                               onPressed: () => _onSocial("Twitter"),
                             ),
                             const SizedBox(width: 8),
                             IconButton(
-                              icon: const Icon(Icons.g_mobiledata, color: Colors.redAccent, size: 32),
+                              icon: const Icon(
+                                Icons.g_mobiledata,
+                                color: Colors.redAccent,
+                                size: 32,
+                              ),
                               onPressed: () => _onSocial("Google"),
                             ),
                           ],
