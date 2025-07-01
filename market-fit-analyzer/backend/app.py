@@ -36,6 +36,7 @@ st.markdown("""
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: #f5f5f5;
+    font-color: var(--dark);
 }
 
 .stApp {
@@ -82,7 +83,7 @@ body {
 # Header with animation
 st.markdown("""
 <div style='text-align: center;'>
-    <h1 style='color: #4CAF50; font-size: 2.5rem; margin-bottom: 0;'>🚀 Retail AI Predictor Pro</h1>
+    <h1 style='color: #4CAF50; font-size: 2.5rem; margin-bottom: 0;'>Retail AI Predictor Pro</h1>
     <p style='color: #666; font-size: 1.2rem; margin-top: 0;'>Next-Gen Sales Forecasting & Market Intelligence</p>
 </div>
 """, unsafe_allow_html=True)
@@ -177,7 +178,7 @@ if transactions_file and products_file and shops_file:
         metrics = get_metrics(y_true, y_pred)
 
     # Success message with animation
-    st.success("🚀 AI Model Trained Successfully!")
+    st.success("AI Model Trained Successfully!")
     st.balloons()
 
     # Dashboard Overview
@@ -639,7 +640,7 @@ else:
     # Show demo mode or instructions
     st.markdown("""
     <div style='text-align: center; padding: 5rem;'>
-        <h2>🚀 Welcome to Retail AI Predictor Pro</h2>
+        <h2>Welcome to Retail AI Predictor Pro</h2>
         <p style='font-size: 1.2rem;'>Upload your retail data in the sidebar to unlock powerful AI-driven insights</p>
         <div style='margin-top: 3rem;'>
             <img src='https://cdn-icons-png.flaticon.com/512/1055/1055687.png' width='200'>
