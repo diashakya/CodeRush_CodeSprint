@@ -1,0 +1,118 @@
+product_id,product_name,shop_id,city,predicted_quantity,status
+60,Lays Sna60,39,Bhaktapur,9.01,Success
+36,Lux Per36,41,Bhaktapur,8.97,Success
+13,Wai Wai Sna13,14,Lalitpur,8.35,Success
+93,Pringles Sna93,46,Lalitpur,8.14,Success
+80,Coca-Cola Bev80,28,Kathmandu,7.89,Success
+16,Nestle Bev16,42,Bhaktapur,7.81,Success
+3,Nestle Bev3,28,Kathmandu,7.79,Success
+29,Red Bull Bev29,25,Lalitpur,7.76,Success
+113,Pepsi Bev113,7,Kathmandu,7.68,Success
+31,Pepsi Bev31,29,Biratnagar,7.66,Success
+60,Lays Sna60,48,Biratnagar,7.6,Success
+106,Coca-Cola Bev106,44,Biratnagar,7.57,Success
+167,Kurkure Sna167,12,Kathmandu,7.54,Success
+65,Coca-Cola Bev65,40,Biratnagar,7.53,Success
+180,Lays Sna180,35,Lalitpur,7.5,Success
+71,Pepsi Bev71,40,Biratnagar,7.45,Success
+47,Pepsi Bev47,37,Lalitpur,7.44,Success
+105,Lays Sna105,13,Kathmandu,7.42,Success
+149,Wai Wai Sna149,38,Bhaktapur,7.42,Success
+1,Pepsi Bev1,33,Lalitpur,7.39,Success
+114,Dove Per114,23,Kathmandu,7.37,Success
+93,Pringles Sna93,31,Biratnagar,7.26,Success
+43,Pepsi Bev43,22,Bhaktapur,7.25,Success
+177,Wai Wai Sna177,26,Bhaktapur,7.21,Success
+180,Lays Sna180,29,Biratnagar,7.2,Success
+142,Harpic Hou142,7,Kathmandu,7.18,Success
+4,Nestle Bev4,45,Bhaktapur,7.18,Success
+113,Pepsi Bev113,2,Biratnagar,7.17,Success
+64,Lays Sna64,30,Biratnagar,7.11,Success
+3,Nestle Bev3,37,Lalitpur,7.0,Success
+24,Pepsi Bev24,49,Kathmandu,7.0,Success
+32,Himalaya Per32,41,Bhaktapur,6.96,Success
+19,Pepsi Bev19,1,Lalitpur,6.91,Success
+136,Pringles Sna136,47,Biratnagar,6.89,Success
+10,Coca-Cola Bev10,41,Bhaktapur,6.89,Success
+110,Red Bull Bev110,48,Biratnagar,6.85,Success
+141,Amul Dai141,22,Bhaktapur,6.82,Success
+121,Surf Excel Hou121,24,Bhaktapur,6.8,Success
+111,Pepsi Bev111,43,Kathmandu,6.79,Success
+181,Patanjali Per181,45,Bhaktapur,6.79,Success
+99,Pepsi Bev99,34,Biratnagar,6.76,Success
+101,Pringles Sna101,13,Kathmandu,6.76,Success
+41,Coca-Cola Bev41,50,Biratnagar,6.76,Success
+173,Pringles Sna173,10,Bhaktapur,6.75,Success
+60,Lays Sna60,7,Kathmandu,6.72,Success
+176,Pepsi Bev176,4,Pokhara,6.72,Success
+115,Nestle Dai115,44,Biratnagar,6.71,Success
+140,Dove Per140,8,Pokhara,6.7,Success
+85,Coca-Cola Bev85,24,Bhaktapur,6.66,Success
+132,Lux Per132,41,Bhaktapur,6.64,Success
+123,Nestle Dai123,15,Kathmandu,6.61,Success
+45,Himalaya Per45,35,Lalitpur,6.55,Success
+131,Lux Per131,27,Pokhara,6.52,Success
+75,Vim Hou75,45,Bhaktapur,6.51,Success
+56,Dove Per56,49,Kathmandu,6.47,Success
+48,Harpic Hou48,24,Bhaktapur,6.44,Success
+74,Vim Hou74,38,Bhaktapur,6.44,Success
+5,Pepsi Bev5,43,Kathmandu,6.42,Success
+121,Surf Excel Hou121,43,Kathmandu,6.39,Success
+102,Patanjali Per102,27,Pokhara,6.39,Success
+32,Himalaya Per32,31,Biratnagar,6.35,Success
+72,Harpic Hou72,17,Kathmandu,6.34,Success
+134,Coca-Cola Bev134,27,Pokhara,6.29,Success
+94,Pringles Sna94,39,Bhaktapur,6.19,Success
+60,Lays Sna60,10,Bhaktapur,6.18,Success
+8,Lays Sna8,34,Biratnagar,6.11,Success
+91,Patanjali Per91,18,Lalitpur,6.11,Success
+94,Pringles Sna94,50,Biratnagar,6.02,Success
+166,Wai Wai Sna166,33,Lalitpur,5.93,Success
+118,Amul Dai118,50,Biratnagar,5.91,Success
+168,Himalaya Per168,23,Kathmandu,5.83,Success
+94,Pringles Sna94,4,Pokhara,5.79,Success
+84,Wai Wai Sna84,14,Lalitpur,5.79,Success
+116,Dove Per116,21,Pokhara,5.77,Success
+186,Surf Excel Hou186,7,Kathmandu,5.72,Success
+78,Yak Cheese Dai78,14,Lalitpur,5.71,Success
+183,Harpic Hou183,10,Bhaktapur,5.7,Success
+37,Harpic Hou37,20,Pokhara,5.64,Success
+81,Vim Hou81,28,Kathmandu,5.62,Success
+168,Himalaya Per168,4,Pokhara,5.52,Success
+128,Himalaya Per128,29,Biratnagar,5.5,Success
+156,Lux Per156,4,Pokhara,5.48,Success
+109,Vim Hou109,38,Bhaktapur,5.47,Success
+53,Patanjali Per53,3,Bhaktapur,5.39,Success
+159,Pepsi Bev159,22,Bhaktapur,5.38,Success
+160,Himalaya Per160,32,Lalitpur,5.36,Success
+160,Himalaya Per160,35,Lalitpur,5.36,Success
+145,Lays Sna145,50,Biratnagar,5.32,Success
+150,Amul Dai150,16,Biratnagar,5.3,Success
+49,Harpic Hou49,6,Biratnagar,5.27,Success
+6,Surf Excel Hou6,6,Biratnagar,5.25,Success
+68,Dairy Milk Dai68,32,Lalitpur,5.22,Success
+168,Himalaya Per168,43,Kathmandu,5.22,Success
+109,Vim Hou109,14,Lalitpur,5.19,Success
+164,Wai Wai Sna164,12,Kathmandu,5.18,Success
+146,Nestle Dai146,4,Pokhara,5.15,Success
+56,Dove Per56,39,Bhaktapur,5.15,Success
+179,Dove Per179,9,Bhaktapur,5.12,Success
+147,Nestle Dai147,40,Biratnagar,5.1,Success
+148,Nestle Bev148,15,Kathmandu,5.09,Success
+197,Surf Excel Hou197,20,Pokhara,5.03,Success
+22,Lays Sna22,37,Lalitpur,5.03,Success
+140,Dove Per140,2,Biratnagar,4.92,Success
+146,Nestle Dai146,38,Bhaktapur,4.89,Success
+42,Colin Hou42,21,Pokhara,4.86,Success
+27,Yak Cheese Dai27,43,Kathmandu,4.86,Success
+183,Harpic Hou183,4,Pokhara,4.79,Success
+96,Harpic Hou96,13,Kathmandu,4.74,Success
+152,Wai Wai Sna152,12,Kathmandu,4.71,Success
+64,Lays Sna64,31,Biratnagar,4.63,Success
+109,Vim Hou109,41,Bhaktapur,4.53,Success
+22,Lays Sna22,35,Lalitpur,4.47,Success
+146,Nestle Dai146,19,Lalitpur,3.98,Success
+56,Dove Per56,37,Lalitpur,3.92,Success
+17,Pringles Sna17,12,Kathmandu,3.91,Success
+187,Nestle Dai187,46,Lalitpur,3.86,Success
+152,Wai Wai Sna152,47,Biratnagar,3.72,Success
